@@ -39,7 +39,7 @@ pipeline {
             agent {
                 docker {
                     image 'mcr.microsoft.com/playwright:v1.62.0-noble'
-                    resuseNode true
+                    reuseNode true
                 }
             }
             steps {
