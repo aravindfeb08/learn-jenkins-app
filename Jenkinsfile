@@ -45,7 +45,7 @@ pipeline {
             steps {
                 sh '''
                 npm install -g serve
-                npx serve -s build
+                node_modules/.bin/serve -s build
                 '''
             }
         }
