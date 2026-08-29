@@ -40,7 +40,7 @@ pipeline {
                 echo "Deploying to production. project id: $NETLIFY_PROJECT_ID"
                 node_modules/.bin/netlify status
                 node_modules/.bin/netlify deploy --help
-                node_modules/.bin/netlify deploy --dir=build --prod --build=false
+                node_modules/.bin/netlify deploy --dir=build --prod --no-build
                 '''
             }
         }
