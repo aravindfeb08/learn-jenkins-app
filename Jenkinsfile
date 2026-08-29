@@ -10,7 +10,7 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image 'node:18-alpine'
+                    image 'node:22-alpine'
                     reuseNode true
                 }
             }
@@ -31,7 +31,7 @@ pipeline {
                 stage('Unit test') {
                     agent {
                         docker {
-                            image 'node:18-alpine'
+                            image 'node:22-alpine'
                             reuseNode true
                         }
                     }
@@ -76,7 +76,7 @@ pipeline {
         stage('Deploy') {
             agent {
                 docker {
-                    image 'node:18-alpine'
+                    image 'node:22-alpine'
                     reuseNode true
                 } 
             }
@@ -86,7 +86,7 @@ pipeline {
                 node_modules/.bin/netlify --version
                 echo "Deploying to production. project id: $NETLIFY_PROJECT_ID"
                 node_modules/.bin/netlify status
-                node_modules/.bin/netlify deploy --dir=build --prod --build=false
+                node_modules/.bin/netlify deploy --dir=build --prod --no-build
                 '''
             }
         }
