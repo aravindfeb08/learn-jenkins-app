@@ -71,9 +71,36 @@ pipeline {
                     }
                 }
             }
+        }
+
+        stage('Deploy Staging') {
+            agent {
+                docker {
+                    image 'node:22-alpine'
+                    reuseNode true
+                } 
+            }
+            steps {
+                sh '''
+                npm install netlify-cli
+                node_modules/.bin/netlify --version
+                echo "Deploying to production. project id: $NETLIFY_PROJECT_ID"
+                node_modules/.bin/netlify status
+                node_modules/.bin/netlify deploy --dir=build --no-build
+                '''
+            }
+        }
+
+        stage('Approval') {
+            steps {
+                timeout(5) {
+                //timeout(time: 1, unit: 'HOURS') {
+                    input cancel: 'No', message: 'Read to deploy? ', ok: 'Yes i approve the deployment'
+                }
+            }
         }   
 
-        stage('Deploy') {
+        stage('Deploy prod') {
             agent {
                 docker {
                     image 'node:22-alpine'
