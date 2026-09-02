@@ -60,7 +60,7 @@ pipeline {
                         sh '''
                         npm install serve
                         node_modules/.bin/serve -s build &
-                        //sleep 10
+                        #sleep 10
                         npx playwright test --reporter=html
                         '''
                     }
@@ -82,7 +82,7 @@ pipeline {
             }
             steps {
                 sh '''
-                npm install netlify-cli
+                npm install netlify-cli node-jq
                 node_modules/.bin/netlify --version
                 echo "Deploying to production. project id: $NETLIFY_PROJECT_ID"
                 node_modules/.bin/netlify status
