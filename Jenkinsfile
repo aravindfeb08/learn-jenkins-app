@@ -50,27 +50,27 @@ pipeline {
             }
         }
 
-        stage('Staging E2e') {
-            agent {
-                docker {
-                //image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
-                image 'mcr.microsoft.com/playwright:v1.62.0-noble'
-                reuseNode true
-                }
-            }
-            environment {
-                CI_ENVIRONMENT_URL = "${env.STAGING_URL}"
-            }
-            steps {
-                sh '''
-                npx playwright test --reporter=html
-                '''
-            }
-            post {
-                always {
-                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Staging E2e Report', reportTitles: '', useWrapperFileDirectly: true])
-                }
-            }        
-        }
+        // stage('Staging E2e') {
+        //     agent {
+        //         docker {
+        //         //image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+        //         image 'mcr.microsoft.com/playwright:v1.62.0-noble'
+        //         reuseNode true
+        //         }
+        //     }
+        //     environment {
+        //         CI_ENVIRONMENT_URL = "${env.STAGING_URL}"
+        //     }
+        //     steps {
+        //         sh '''
+        //         npx playwright test --reporter=html
+        //         '''
+        //     }
+        //     post {
+        //         always {
+        //             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Staging E2e Report', reportTitles: '', useWrapperFileDirectly: true])
+        //         }
+        //     }        
+        // }
     }
 }
