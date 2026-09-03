@@ -126,25 +126,26 @@ pipeline {
             }
         }   
 
-        stage('Deploy prod') {
-            agent {
-                docker {
-                    image 'node:22-alpine'
-                    reuseNode true
-                } 
-            }
-            steps {
-                sh '''
-                npm install netlify-cli
-                node_modules/.bin/netlify --version
-                echo "Deploying to production. project id: $NETLIFY_PROJECT_ID"
-                node_modules/.bin/netlify status
-                node_modules/.bin/netlify deploy --dir=build --prod --no-build
-                '''
-            }
-        }
+        // stage('Deploy prod') {
+        //     agent {
+        //         docker {
+        //             image 'node:22-alpine'
+        //             reuseNode true
+        //         } 
+        //     }
+        //     steps {
+        //         sh '''
+        //         npm install netlify-cli
+        //         node_modules/.bin/netlify --version
+        //         echo "Deploying to production. project id: $NETLIFY_PROJECT_ID"
+        //         node_modules/.bin/netlify status
+        //         node_modules/.bin/netlify deploy --dir=build --prod --no-build
+        //         '''
+        //     }
+        // }
 
-        stage('Prod E2e') {
+        //stage('Prod E2e') {
+        stage('Deploy prod') {
             agent {
                 docker {
                 //image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
@@ -153,10 +154,15 @@ pipeline {
                 }
             }
             environment {
-                CI_ENVIRONMENT_URL = 'https://sprightly-faloodeh-638057.netlify.app/'
+                CI_ENVIRONMENT_URL = 'PROD_URL_NEED_TO_BE_SET'
             }
             steps {
                 sh '''
+                npm install netlify-cli
+                node_modules/.bin/netlify --version
+                echo "Deploying to production. project id: $NETLIFY_PROJECT_ID"
+                node_modules/.bin/netlify deploy --dir=build --prod --no-build --json > prod_output.json
+                CI_ENVIRONMENT_URL=${node_modules/.bin/node-jq -r '.deploy_url' prod_output.json}
                 npx playwright test --reporter=html
                 '''
             }
