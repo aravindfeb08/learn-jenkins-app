@@ -44,8 +44,10 @@ pipeline {
                 '''
                 script {
                     env.STAGING_URL = sh(script:"node_modules/.bin/node-jq -r '.deploy_url' staging_output.json", returnStdout: true)
+                    env.URL = sh(script:"node_modules/.bin/node-jq -r '.url' staging_output.json", returnStdout: true)
                 }
                 echo "Staging url = ${env.STAGING_URL}"
+                echo "Url = ${env.URL}"
             }
         }
 
@@ -58,7 +60,8 @@ pipeline {
                 }
             }
             environment {
-                CI_ENVIRONMENT_URL = "${env.STAGING_URL}"
+                //CI_ENVIRONMENT_URL = "${env.STAGING_URL}"
+                CI_ENVIRONMENT_URL = "${env.URL}"
             }
             steps {
                 sh '''
