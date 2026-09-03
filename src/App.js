@@ -1,5 +1,6 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { env } from "node:process";
 
 function App() {
   return (
@@ -15,9 +16,7 @@ function App() {
           Learn Jenkins on Udemy
         </a>
       </header>
-      <p>
-          Application version: 1
-      </p>
+      <p>Application version: {env.APP_VERSION}</p>
     </div>
   );
 }
