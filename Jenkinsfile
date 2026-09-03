@@ -93,7 +93,7 @@ pipeline {
             }
         }
 
-        stage('Stage E2e') {
+        stage('Staging E2e') {
             agent {
                 docker {
                 //image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
@@ -102,8 +102,8 @@ pipeline {
                 }
             }
             environment {
-                CI_ENVIRONMENT_URL = "${env.STAGING_URL}"
-                
+                //CI_ENVIRONMENT_URL = "${env.STAGING_URL}" 
+                CI_ENVIRONMENT_URL = 'https://sprightly-faloodeh-638057.netlify.app/'
             }
             steps {
                 sh '''
@@ -119,7 +119,7 @@ pipeline {
 
         stage('Approval') {
             steps {
-                timeout(20) {
+                timeout(30) {
                 //timeout(time: 1, unit: 'HOURS') {
                     input cancel: 'No', message: 'Read to deploy? ', ok: 'Yes i approve the deployment'
                 }
