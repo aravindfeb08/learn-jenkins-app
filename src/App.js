@@ -15,10 +15,8 @@ function App() {
           Learn Jenkins on Udemy
         </a>
       </header>
-      <p>Application version: {process.env.APP_VERSION}</p>
+      {/* <p>Application version: {process.env.APP_VERSION}</p> */}
       <p>Application version: {process.env.REACT_APP_VERSION}</p>
-      <p>Public url: {process.env.PUBLIC_URL}</p>
-      <p>Staging url: {process.env.STAGING_URL}</p>
     </div>
   );
 }
