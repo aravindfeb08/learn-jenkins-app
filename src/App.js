@@ -16,6 +16,8 @@ function App() {
         </a>
       </header>
       <p>Application version: {process.env.APP_VERSION}</p>
+      <p>Application version: {process.env.REACT_APP_VERSION}</p>
+      <p>Public url: {process.env.PUBLIC_URL}</p>
     </div>
   );
 }
