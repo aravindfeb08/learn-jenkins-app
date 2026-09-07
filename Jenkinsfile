@@ -16,7 +16,7 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image 'my-playwright'
+                    image 'node:22-alpine'
                     reuseNode true
                 }
             }
