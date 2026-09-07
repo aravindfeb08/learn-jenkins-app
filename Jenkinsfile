@@ -17,7 +17,7 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image 'node:22-alpine'
+                    image 'my-playwright'
                     reuseNode true
                 }
             }
@@ -33,29 +33,24 @@ pipeline {
             }
         } 
 
-        // stage('Deploy Staging') {
-        //     agent {
-        //         docker {
-        //             image 'node:22-alpine'
-        //             reuseNode true
-        //         } 
-        //     }
-        //     steps {
-        //         sh '''
-        //         npm install netlify-cli node-jq
-        //         #node_modules/.bin/netlify --version
-        //         echo "Deploying to production. project id: $NETLIFY_PROJECT_ID"
-        //         node_modules/.bin/netlify status
-        //         #node_modules/.bin/netlify deploy --help
-        //         node_modules/.bin/netlify deploy --dir=build --no-build --json > staging_output.json
-        //         '''
-        //         script {
-        //             env.STAGING_URL = sh(script:"node_modules/.bin/node-jq -r '.deploy_url' staging_output.json", returnStdout: true)
-        //         }
-        //         echo "Staging url = ${env.STAGING_URL}"
-        //         echo "REACT_APP_VERSION = ${REACT_APP_VERSION}"
-        //     }
-        // }
+        stage('Deploy Staging') {
+            agent {
+                docker {
+                    image 'my-playwright'
+                    reuseNode true
+                } 
+            }
+            steps {
+                sh '''
+                echo "Deploying to staging. project id: $NETLIFY_PROJECT_ID"
+                netlify deploy --dir=build --no-build --json > staging_output.json
+                '''
+                script {
+                    env.STAGING_URL = sh(script:"node-jq -r '.deploy_url' staging_output.json", returnStdout: true)
+                }
+                echo "Staging url = ${env.STAGING_URL}"
+            }
+        }
 
         // stage('Staging E2e') {
         //     agent {
