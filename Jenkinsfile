@@ -8,19 +8,25 @@ pipeline {
     }
 
     stages {
+        stage('Docker') {
+            steps {
+                image 'docker build -t my-playwright .'
+                reuseNode true
+            }
+        }
         stage('Build') {
             agent {
                 docker {
-                    image 'node:22-alpine'
+                    image 'my-playwright'
                     reuseNode true
                 }
             }
             steps {
                 sh '''
                     ls -la
-                    node --version
-                    npm --version
-                    npm ci
+                    #node --version
+                    #npm --version
+                    #npm ci
                     npm run build
                     ls -la
                     echo "buid id = $APP_VERSION"
