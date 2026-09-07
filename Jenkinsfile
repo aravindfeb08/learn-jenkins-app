@@ -10,8 +10,7 @@ pipeline {
     stages {
         stage('Docker') {
             steps {
-                image 'docker build -t my-playwright .'
-                reuseNode true
+                sh 'docker build -t my-playwright .'
             }
         }
         stage('Build') {
