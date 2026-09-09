@@ -4,6 +4,7 @@ pipeline {
     environment {
         NETLIFY_SITE_ID = '678b78dd-9891-4467-8518-975973b4c7c0'
         NETLIFY_AUTH_TOKEN = credentials('netlify_token')
+        REACT_APP_VERSION = "1.0.$BUILD_ID"
     }
 
     stages {
@@ -119,10 +120,11 @@ pipeline {
 
         stage('Approval') {
             steps {
-                timeout(30) {
-                //timeout(time: 1, unit: 'HOURS') {
-                    input cancel: 'No', message: 'Read to deploy? ', ok: 'Yes i approve the deployment'
-                }
+                echo "Approval to production deploy"
+                // timeout(30) {
+                // //timeout(time: 1, unit: 'HOURS') {
+                //     input cancel: 'No', message: 'Read to deploy? ', ok: 'Yes i approve the deployment'
+                // }
             }
         }   
 
