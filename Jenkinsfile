@@ -156,11 +156,11 @@ pipeline {
             }
             steps {
                 sh '''
-                npm install netlify-cli
-                node_modules/.bin/netlify --version
+                netlify --version
                 echo "Deploying to production. project id: $NETLIFY_PROJECT_ID"
-                node_modules/.bin/netlify deploy --dir=build --prod --no-build --json > prod_output.json
-                CI_ENVIRONMENT_URL=${node_modules/.bin/node-jq -r '.deploy_url' prod_output.json}
+                netlify deploy --dir=build --prod --no-build --json > prod_output.json
+                CI_ENVIRONMENT_URL=${node-jq -r '.deploy_url' prod_output.json}
+                echo "CI_ENVIRONMENT_URL: $CI_ENVIRONMENT_URL"
                 npx playwright test --reporter=html
                 '''
             }
