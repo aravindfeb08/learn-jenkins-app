@@ -152,7 +152,8 @@ pipeline {
                 }
             }
             environment {
-                CI_ENVIRONMENT_URL = 'PROD_URL_NEED_TO_BE_SET'
+                //CI_ENVIRONMENT_URL = 'PROD_URL_NEED_TO_BE_SET'
+                CI_ENVIRONMENT_URL = 'https://sprightly-faloodeh-638057.netlify.app/'
             }
             steps {
                 sh '''
@@ -160,7 +161,7 @@ pipeline {
                 echo "Deploying to production. project id: $NETLIFY_PROJECT_ID"
                 netlify deploy --dir=build --prod --no-build --json > prod_output.json
                 CI_ENVIRONMENT_URL=${node-jq -r '.deploy_url' prod_output.json}
-                echo "CI_ENVIRONMENT_URL: $CI_ENVIRONMENT_URL"
+                echo "CI_ENVIRONMENT_URL = ${env.CI_ENVIRONMENT_URL}"
                 npx playwright test --reporter=html
                 '''
             }
