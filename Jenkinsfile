@@ -160,8 +160,8 @@ pipeline {
                 netlify --version
                 echo "Deploying to production. project id: $NETLIFY_PROJECT_ID"
                 netlify deploy --dir=build --prod --no-build --json > prod_output.json
-                CI_ENVIRONMENT_URL=${jq -r '.deploy_url' prod_output.json}
-                echo "CI_ENVIRONMENT_URL = ${env.CI_ENVIRONMENT_URL}"
+                # CI_ENVIRONMENT_URL=${jq -r '.deploy_url' prod_output.json}
+                # echo "CI_ENVIRONMENT_URL = ${env.CI_ENVIRONMENT_URL}"
                 npx playwright test --reporter=html
                 '''
             }
