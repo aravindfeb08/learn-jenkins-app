@@ -8,12 +8,6 @@ pipeline {
     }
 
     stages {
-        stage('Docker') {
-            steps {
-                sh 'docker build -t my-playwright .'
-            }
-        }
-
         stage('Build') {
             agent {
                 docker {
@@ -33,46 +27,29 @@ pipeline {
             }
         } 
 
-        stage('Deploy Staging') {
+        stage('Deploy aws') {
             agent {
                 docker {
-                    image 'my-playwright'
+                    image 'amazon/aws-cli'
                     reuseNode true
-                } 
+                    args "--entrypoint=''"
+                }
+            }
+            environment {
+                AWS_S3_BUCKET = 'aws-s3-demo-bucket-110920260101'
             }
             steps {
-                sh '''
-                echo "Deploying to staging. project id: $NETLIFY_PROJECT_ID"
-                netlify deploy --dir=build --no-build --json > staging_output.json
-                '''
-                script {
-                    env.STAGING_URL = sh(script:"node-jq -r '.deploy_url' staging_output.json", returnStdout: true)
+                withCredentials([usernamePassword(credentialsId: 'jenkins-aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                    sh '''
+                    aws --version
+                    #echo "Hello s3!" > index.html
+                    #aws s3 ls
+                    #aws s3 cp index.html s3://$AWS_S3_BUCKET/index.html
+                    aws s3 sync build s3://$AWS_S3_BUCKET/build
+                    '''
                 }
-                echo "Staging url = ${env.STAGING_URL}"
             }
         }
 
-        // stage('Staging E2e') {
-        //     agent {
-        //         docker {
-        //         //image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
-        //         image 'mcr.microsoft.com/playwright:v1.62.0-noble'
-        //         reuseNode true
-        //         }
-        //     }
-        //     environment {
-        //         CI_ENVIRONMENT_URL = "${env.STAGING_URL}"
-        //     }
-        //     steps {
-        //         sh '''
-        //         npx playwright test --reporter=html
-        //         '''
-        //     }
-        //     post {
-        //         always {
-        //             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Staging E2e Report', reportTitles: '', useWrapperFileDirectly: true])
-        //         }
-        //     }        
-        // }
     }
 }
