@@ -1,0 +1,75 @@
+{
+  "taskDefinitionArn": "arn:aws:ecs:us-east-1:820793024301:task-definition/LearnJenkinsApp-TaskDefinition-Prod:2",
+  "containerDefinitions": [
+    {
+      "name": "LearnJenkinsApp",
+      "image": "nginx:1.30.5-alpine",
+      "cpu": 0,
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 80,
+          "protocol": "tcp",
+          "name": "learnjenkinsapp-80-tcp",
+          "appProtocol": "http"
+        }
+      ],
+      "essential": true,
+      "environment": [],
+      "environmentFiles": [],
+      "mountPoints": [],
+      "volumesFrom": [],
+      "ulimits": [],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/LearnJenkinsApp-TaskDefinition-Prod",
+          "awslogs-create-group": "true",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        },
+        "secretOptions": []
+      },
+      "systemControls": []
+    }
+  ],
+  "family": "LearnJenkinsApp-TaskDefinition-Prod",
+  "executionRoleArn": "arn:aws:iam::820793024301:role/service-role/ecsTaskExecutionRole",
+  "networkMode": "awsvpc",
+  "revision": 2,
+  "volumes": [],
+  "status": "ACTIVE",
+  "requiresAttributes": [
+    {
+      "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+    },
+    {
+      "name": "ecs.capability.execution-role-awslogs"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+    },
+    {
+      "name": "ecs.capability.task-eni"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+    }
+  ],
+  "placementConstraints": [],
+  "compatibilities": ["EC2", "FARGATE", "MANAGED_INSTANCES"],
+  "runtimePlatform": {
+    "cpuArchitecture": "X86_64",
+    "operatingSystemFamily": "LINUX"
+  },
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "registeredAt": "2026-09-29T10:33:54.399Z",
+  "registeredBy": "arn:aws:iam::820793024301:root",
+  "enableFaultInjection": false,
+  "tags": []
+}
