@@ -1,0 +1,25 @@
+{
+  "requiresCompatibilities": ["FARGATE"],
+  "family": "LearnJenkinsApp-TaskDefinition-Prod",
+  "containerDefinitions": [
+    {
+      "name": "LearnJenkinsApp",
+      "image": "nginx:1.31.6-alpine",
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 80,
+          "protocol": "tcp",
+          "name": "learnjenkinsapp-80-tcp",
+          "appProtocol": "http"
+        }
+      ],
+      "essential": true
+    }
+  ],
+  "volumes": [],
+  "networkMode": "awsvpc",
+  "memory": "512",
+  "cpu": "256",
+  "executionRoleArn": ""
+}

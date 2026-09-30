@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "LearnJenkinsApp",
-      "image": "nginx:1.30.5-alpine",
+      "image": "nginx:1.31.6-alpine",
       "cpu": 0,
       "portMappings": [
         {
