@@ -1,2 +1,2 @@
-FROM mcr.microsoft.com/playwright:v1.62.0-noble
-RUN npm install -g netlify-cli node-jq
+FROM nginx:1.31.6-alpine
+COPY build /usr/share/nginx/html
